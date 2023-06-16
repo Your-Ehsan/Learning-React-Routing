@@ -9,4 +9,9 @@ export let DATA_CODE = [
     title: "this is second title _2",
     link: 'link-2'
   },
+  {
+    name: "this is name 3",
+    title: "this is second title _3",
+    link: 'link-3'
+  },
 ];
