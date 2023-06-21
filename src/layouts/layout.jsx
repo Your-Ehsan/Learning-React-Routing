@@ -6,7 +6,6 @@ import Footer from "../components/footer";
 export default function Layout() {
   return (
     <>
-      <h1>this is layout page</h1>
       <Header />
       <Outlet />
       <Footer />
