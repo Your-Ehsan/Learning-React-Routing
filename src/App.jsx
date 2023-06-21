@@ -6,6 +6,7 @@ import About from "./pages/about";
 import Render_Code from "./pages/render_code";
 import Layout from "./layouts/layout";
 import Layout_2 from "./layouts/layout_2";
+import Not_Found from "./pages/not_found";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
               <Route index element={<About />} />
               <Route path="home" element={<Home />} />
             </Route>
+          <Route path="*" element={<Not_Found/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

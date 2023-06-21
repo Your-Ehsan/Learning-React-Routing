@@ -49,9 +49,14 @@ export default function Home() {
               >
                 josephine ankunding
               </Link>
-              {typeFilter ? <Link className="text-white mx-2" to={SPstring("userName", null)}>
-                Clear
-              </Link> : null}
+              {typeFilter ? (
+                <Link
+                  className="text-white mx-2"
+                  to={SPstring("userName", null)}
+                >
+                  Clear
+                </Link>
+              ) : null}
             </div>
             {/* MEthod two using react-router_6 guidlines */}
             {/* 
@@ -74,17 +79,19 @@ export default function Home() {
                 >
                   josephine Ankunding
                 </button>
-                {typeFilter ? <button
-                  onClick={() => {
-                    setsearchParam({});
-                  }}
-                >
-                  clear 
-                </button> : null}
+                {typeFilter ? (
+                  <button
+                    onClick={() => {
+                      setsearchParam({});
+                    }}
+                  >
+                    clear
+                  </button>
+                ) : null}
               </div>
-              
-              {/* 
-              **  This is another way or we can say third way to filter data bu using both vanilla JS and react router element */}
+
+              {/*
+               **  This is another way or we can say third way to filter data bu using both vanilla JS and react router element */}
               <div>
                 <button
                   onClick={() => {
@@ -100,13 +107,15 @@ export default function Home() {
                 >
                   josephine Ankunding
                 </button>
-                {typeFilter ?  <button
-                  onClick={() => {
-                    handleSP("userName", null);
-                  }}
-                >
-                  clear
-                </button> : null}
+                {typeFilter ? (
+                  <button
+                    onClick={() => {
+                      handleSP("userName", null);
+                    }}
+                  >
+                    clear
+                  </button>
+                ) : null}
               </div>
             </div>
           </div>
@@ -118,7 +127,12 @@ export default function Home() {
                 <span>{e.id}.</span>
                 <h2>this is name : {e.userName}</h2>
                 <span>This is title from DATA_CODE : {e.title}</span>
-                <Link to={"/" + e.id}>{e.link}</Link>
+                <Link
+                  to={"/" + e.id}
+                  state={{ filter:`?${searchParam.toString()}`, userName: typeFilter }}
+                >
+                  {e.link}
+                </Link>
               </article>
             </>
           );
