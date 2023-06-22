@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { GetData } from "../api";
 export default function Home() {
   const [searchParam, setsearchParam] = useSearchParams();
   const typeFilter = searchParam.get("userName");
 
   const [DATA, setDATA] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:3000/Blog").then((req) =>
-      req.json().then((res) => setDATA(res))
-    );
+    async function loadData() {
+      const BlogData = await GetData();
+      setDATA(BlogData);
+    }
+    loadData();
   }, []);
+  console.log(DATA);
   const filteredDATA = typeFilter
     ? DATA.filter((char) => char.userName.toLowerCase() === typeFilter)
     : DATA;
@@ -39,15 +43,15 @@ export default function Home() {
               {/* method one using vanilla javascript */}
               <Link
                 className="text-white mx-2"
-                to={SPstring("userName", "casey murray")}
+                to={SPstring("userName", "stephen mayer")}
               >
-                casey murray
+                stephen mayer
               </Link>
               <Link
                 className="text-white mx-2"
-                to={SPstring("userName", "josephine ankunding")}
+                to={SPstring("userName", "alejandro zieme")}
               >
-                josephine ankunding
+                Alejandro Zieme
               </Link>
               {typeFilter ? (
                 <Link
@@ -129,7 +133,10 @@ export default function Home() {
                 <span>This is title from DATA_CODE : {e.title}</span>
                 <Link
                   to={"/" + e.id}
-                  state={{ filter:`?${searchParam.toString()}`, userName: typeFilter }}
+                  state={{
+                    filter: `?${searchParam.toString()}`,
+                    userName: typeFilter,
+                  }}
                 >
                   {e.link}
                 </Link>

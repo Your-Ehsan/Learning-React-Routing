@@ -1,4 +1,5 @@
 import { Link, useLocation, useParams } from "react-router-dom";
+
 export default function Render_Code() {
   const param = useParams();
   const location = useLocation();
@@ -6,7 +7,7 @@ export default function Render_Code() {
   console.log(param.id);
   const _Back = location.state?.filter || null;
   {
-    /* if this dost's work then replace null with "" */
+    /*NOTE: if this dost's work then replace null with "" */
   }
   return (
     <>
