@@ -7,13 +7,14 @@ import {
 } from "react-router-dom";
 // loader concepts step-2 [import loader on dedicated <Route/>]
 import Home, { BlogLoader } from "./pages/home"; //[loader as HomeLoader] it's not necessary but can be a better practice.
-import Contact from "./pages/contact";
+import Contact, { loader as contactLoader } from "./pages/contact";
 import About from "./pages/about";
-import Render_Code from "./pages/render_code";
+import Render_Code, { loader as PageLoader } from "./pages/render_code";
 import Layout from "./layouts/layout";
 import Layout_2 from "./layouts/layout_2";
 import Not_Found from "./pages/not_found";
 import Error from "./components/error";
+import { protectedRoute } from "./utils";
 
 function App() {
   return (
@@ -24,19 +25,26 @@ function App() {
             <Route element={<Layout />}>
               <Route
                 index
-                errorElement={
-                  <Error/>
-                }
+                errorElement={<Error />}
                 element={<Home />}
                 loader={BlogLoader}
               />
               <Route
                 path={"contact"}
                 element={<Contact />}
+                loader={contactLoader}
                 // loader={HomeLoader} // loader concept step-3 use loader function in loder={...}
               />
-              <Route path={"about"} element={<About />} />
-              <Route path={":id"} element={<Render_Code />} />
+              <Route
+                path={"about"}
+                element={<About />}
+                loader={async () => { await protectedRoute()}}
+              />
+              <Route
+                path={":id"}
+                element={<Render_Code />}
+                loader={PageLoader}
+              />
               <Route path="layout_2" element={<Layout_2 />}>
                 <Route index element={<About />} />
                 <Route path="home" element={<Home />} />

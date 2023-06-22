@@ -35,7 +35,7 @@ export default function Home() {
   //   loadData();
   // }, []);
   const DATA = useLoaderData()
-  console.log(DATA)
+  // console.log(DATA)
 
   const filteredDATA = typeFilter
     ? DATA.filter((char) => char.userName.toLowerCase() === typeFilter)
@@ -59,7 +59,7 @@ export default function Home() {
   // if (error) {
   //   return <h1>there is an error : {error.status}</h1>;
   // }
-  
+
   return (
     <>
       <section className="mx-24">
