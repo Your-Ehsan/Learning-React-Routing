@@ -1,26 +1,41 @@
-import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useLoaderData, useSearchParams } from "react-router-dom";
 import { GetData } from "../api";
+
+// loader concept step-1 [make a export function]
+// export function loader(){
+//   return "string from loader function of <Home/>"
+// }
+export function BlogLoader(){
+  return GetData()
+}
 
 export default function Home() {
   const [searchParam, setsearchParam] = useSearchParams();
   const typeFilter = searchParam.get("userName");
 
-  const [loadingState, setLoadingState] = useState(false);
-  const [DATA, setDATA] = useState([]);
-  useEffect(() => {
-    async function loadData() {
-      setLoadingState(true);
-      try {
-        const BlogData = await GetData();
-        setDATA(BlogData);
-      } catch (error) {
-        console.log(error);
-      }
-      setLoadingState(false);
-    }
-    loadData();
-  }, []);
+  // const [loadingState, setLoadingState] = useState(false);
+
+  // const [DATA, setDATA] = useState([]);
+
+  // const [error, setError] = useState(null);
+  
+  // useEffect(() => {
+  //   async function loadData() {
+  //     setLoadingState(true);
+  //     try {
+  //       const BlogData = await GetData();
+  //       setDATA(BlogData);
+  //     } catch (error) {
+  //       console.log(error);
+  //       setError(error);
+  //     } finally {
+  //       setLoadingState(false);
+  //     }
+  //   }
+  //   loadData();
+  // }, []);
+  const DATA = useLoaderData()
+  console.log(DATA)
 
   const filteredDATA = typeFilter
     ? DATA.filter((char) => char.userName.toLowerCase() === typeFilter)
@@ -37,9 +52,14 @@ export default function Home() {
       return prevParam;
     });
   }
-  if (loadingState) {
-    return <h1>loading ..</h1>;
-  }
+
+  // if (loadingState) {
+  //   return <h1>loading ..</h1>;
+  // }
+  // if (error) {
+  //   return <h1>there is an error : {error.status}</h1>;
+  // }
+  
   return (
     <>
       <section className="mx-24">
