@@ -1,19 +1,27 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { GetData } from "../api";
+
 export default function Home() {
   const [searchParam, setsearchParam] = useSearchParams();
   const typeFilter = searchParam.get("userName");
 
+  const [loadingState, setLoadingState] = useState(false);
   const [DATA, setDATA] = useState([]);
   useEffect(() => {
     async function loadData() {
-      const BlogData = await GetData();
-      setDATA(BlogData);
+      setLoadingState(true);
+      try {
+        const BlogData = await GetData();
+        setDATA(BlogData);
+      } catch (error) {
+        console.log(error);
+      }
+      setLoadingState(false);
     }
     loadData();
   }, []);
-  console.log(DATA);
+
   const filteredDATA = typeFilter
     ? DATA.filter((char) => char.userName.toLowerCase() === typeFilter)
     : DATA;
@@ -28,6 +36,9 @@ export default function Home() {
       !value ? prevParam.delete(key) : prevParam.set(key, value);
       return prevParam;
     });
+  }
+  if (loadingState) {
+    return <h1>loading ..</h1>;
   }
   return (
     <>
@@ -124,26 +135,30 @@ export default function Home() {
             </div>
           </div>
         </div>
-        {filteredDATA.map((e) => {
-          return (
-            <>
-              <article key={e.id}>
-                <span>{e.id}.</span>
-                <h2>this is name : {e.userName}</h2>
-                <span>This is title from DATA_CODE : {e.title}</span>
-                <Link
-                  to={"/" + e.id}
-                  state={{
-                    filter: `?${searchParam.toString()}`,
-                    userName: typeFilter,
-                  }}
-                >
-                  {e.link}
-                </Link>
-              </article>
-            </>
-          );
-        })}
+        {filteredDATA.length > 0 ? (
+          filteredDATA.map((e) => {
+            return (
+              <>
+                <article key={e.id}>
+                  <span>{e.id}.</span>
+                  <h2>this is name : {e.userName}</h2>
+                  <span>This is title from DATA_CODE : {e.title}</span>
+                  <Link
+                    to={"/" + e.id}
+                    state={{
+                      filter: `?${searchParam.toString()}`,
+                      userName: typeFilter,
+                    }}
+                  >
+                    {e.link}
+                  </Link>
+                </article>
+              </>
+            );
+          })
+        ) : (
+          <h1>loading ...</h1>
+        )}
       </section>
     </>
   );
